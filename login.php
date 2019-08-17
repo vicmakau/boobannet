@@ -23,11 +23,19 @@
     //define validation error as empty 
 
 	
-        $err = "";
+        $error = $loginErr = "";
 
         $email = $password = "";
 
+
+
+
         if(isset($_POST[ "login" ])){
+
+        	$email = $_POST['email'];
+
+            $password = md5($_POST['password']);
+
 
 
         	if(empty($email)){
@@ -49,17 +57,19 @@
 
             }
 
-           
 
-            $email= $_POST['email'];
-
-            $password = md5($_POST['password']);
+            else{
 
 
-            //call custLogin method in server.php
-            $loginErr = $dbObject ->custLogin($email, $password);
 
-            $err = $loginErr;
+	            //call memberLogin method in server.php
+
+
+	            $error = $dbObject ->memberLogin($email, $password);
+
+
+	        }
+
 
         }
 
@@ -69,7 +79,7 @@
 	
 ?>
 	
-	<div class="container">
+	<div class="container" id="loginPage">
 
 	<div class="row">
 
@@ -88,13 +98,13 @@
 
 
                 ?>
-                            <div class="alert alert-info">
+                            <div class="alert alert-success">
 
                                 <?php
 
                                     //display alert here
 
-                                    echo "<strong>".$_SESSION['signup_to_login']."<strong>";
+                                    echo "<strong>".$_SESSION['signup_to_login']."</strong>";
 
                                 ?>
 
@@ -103,18 +113,18 @@
 
                 <?php
 
+                		unset($_SESSION['signup_to_login']);
+
                         }
 
                 ?>
 
 
-                <h4 class="text-center">Log in here</h4>
-
-                    <?php
+                <?php
 
                             //check for validation errors
 
-                            if($err !==''){
+                            if(isset($_SESSION['memberPageToLoginmsg']) && !isset($_SESSION['member_email'])){
 
 
                     ?>
@@ -124,7 +134,42 @@
 
                                         //display validation errors here
 
-                                        echo "<strong>".$err."<strong>";
+                                        echo "<strong>".$_SESSION['memberPageToLoginmsg']."<strong>";
+
+                                    ?>
+
+                                </div>
+
+
+                    <?php
+
+                    		unset($_SESSION['memberPageToLoginmsg']);
+
+                            }
+
+                    ?>
+
+
+
+
+
+                <h4 class="text-center">Log in here</h4>
+
+                    <?php
+
+                            //check for validation errors
+
+                            if($error !==''){
+
+
+                    ?>
+                                <div class="alert alert-danger">
+
+                                    <?php
+
+                                        //display validation errors here
+
+                                        echo "<strong>".$error."<strong>";
 
                                     ?>
 
@@ -140,10 +185,10 @@
 
 
 
-			<form class='' action="login.php" method="POST" >
+			<form class='' action="login.php" method="POST" id="loginForm" >
 
 
-                <div class="form-group col-lg-8">
+                <div class="form-group col-lg-12">
 
                 	<label for="mail">Email Address:</label>
 
@@ -153,7 +198,7 @@
 
 
 
-                <div class="form-group col-lg-8">
+                <div class="form-group col-lg-12">
 
                 	<label for="pw">Password:</label>
 
@@ -163,9 +208,9 @@
 
 
 
-                <div class="form-group col-lg-8">
+                <div class="form-group col-lg-12">
 
-                	<button type="submit" class="btn btn-default" name="card_pay" style="">Login</button>
+                	<p class="text-center"><button type="submit" class="btn btn-default" name="login" style="">Login</button></p>
 
             	</div> 
 
@@ -179,5 +224,7 @@
 
 
 <?php
+
 	require_once("tmp/footer.php");
+
 ?>

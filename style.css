@@ -546,3 +546,38 @@ font-family: "Montserrat", sans-serif;
 
 
 
+#signupPage {
+
+  background-color:    ;
+
+}
+
+#signupForm, #loginForm .form-group input{
+
+  border-radius: 5px;
+
+}
+
+#signupForm, #loginForm {
+
+  font-family: Dosis;
+
+  color: blue;
+
+}
+
+#profile .thumbnail{
+
+  border: none;
+
+}
+
+#memberDetails .card {
+
+  border-radius: 10px;
+
+  padding: 10px;
+
+}
+
+
